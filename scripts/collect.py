@@ -121,25 +121,37 @@ def process_feed(
 	enabled: bool = bool(source.get("enabled", True))
 
 	if not enabled:
-		print(f"[SKIP] {source_name} disabled")
+		print(f"[SKIP RSS] {source_name} disabled")
 		return
 
-	print(f"[FETCH] {source_name}")
+	print(f"[FETCH RSS] {source_name}")
 	print(f"[URL] {source_url}")
 
 	feed: Any = feedparser.parse(source_url)
 
 	if hasattr(feed, "bozo") and feed.bozo:
-		print(f"[ERROR] Failed parsing feed: {source_name}")
+		print(f"[ERROR RSS] Failed parsing feed: {source_name}")
 		return
+
+	entry_count: int = len(feed.entries)
+
+	print(f"[RSS ENTRIES] {entry_count}")
+
+	added_count: int = 0
 
 	for entry in feed.entries:
 		link: str = getattr(entry, "link", "").strip()
 
 		if link == "":
+			print("[SKIP RSS] Missing link")
 			continue
 
+		title: str = getattr(entry, "title", "").strip()
+
+		print(f"[RSS ITEM] {title}")
+
 		if incident_exists(incidents, link):
+			print("[SKIP RSS] Already exists")
 			continue
 
 		incident: dict[str, Any] = normalize_entry(
@@ -149,7 +161,14 @@ def process_feed(
 
 		incidents.append(incident)
 
-		print(f"[ADD] {incident['title']}")
+		added_count += 1
+
+		print(f"[ADD RSS] {incident['title']}")
+
+	print(
+		f"[DONE RSS] {source_name}: "
+		f"{added_count} new incidents"
+	)
 
 
 def sort_incidents(
