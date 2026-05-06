@@ -2,7 +2,6 @@ name: Collect Persecution News
 
 on:
   schedule:
-    # Every hour
     - cron: "0 */6 * * *"
 
   workflow_dispatch:
@@ -31,6 +30,19 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Show Environment Info
+        run: |
+          echo "[INFO] Python Version"
+          python --version
+
+          echo ""
+          echo "[INFO] Working Directory"
+          pwd
+
+          echo ""
+          echo "[INFO] Repository Files"
+          ls -R
+
       - name: Cache Pip Dependencies
         uses: actions/cache@v4
         with:
@@ -42,30 +54,93 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          echo "[INFO] Upgrading pip"
           python -m pip install --upgrade pip
+
+          echo ""
+          echo "[INFO] Installing requirements"
           pip install -r requirements.txt
 
       - name: Create Web Data Directories
         run: |
+          echo "[INFO] Creating data directories"
+
           mkdir -p web/data
           mkdir -p web/data/history
 
+          echo ""
+          echo "[INFO] Directory Structure"
+          ls -R web
+
       - name: Run Collector
         run: |
-          python scripts/collect.py
+          echo "[INFO] Starting collector"
+          echo ""
+
+          python -u scripts/collect.py
+
+          echo ""
+          echo "[INFO] Collector finished"
+
+      - name: Show Incidents File
+        run: |
+          echo "[INFO] incidents.json size"
+          wc -c web/data/incidents.json
+
+          echo ""
+          echo "[INFO] Incident count"
+          jq length web/data/incidents.json
+
+      - name: Preview Latest Incidents
+        run: |
+          echo "[INFO] First 5 incidents"
+
+          jq '.[0:5]' web/data/incidents.json
 
       - name: Generate Map Data
         run: |
-          python scripts/generate_map.py
+          echo "[INFO] Generating map data"
+
+          python -u scripts/generate_map.py
+
+      - name: Show Map File
+        run: |
+          echo "[INFO] map.json size"
+          wc -c web/data/map.json
+
+          echo ""
+          echo "[INFO] Map entry count"
+          jq length web/data/map.json
 
       - name: Validate JSON Files
         run: |
+          echo "[INFO] Validating incidents.json"
           python -m json.tool web/data/incidents.json > /dev/null
+
+          echo "[PASS] incidents.json valid"
+
+          echo ""
+          echo "[INFO] Validating map.json"
           python -m json.tool web/data/map.json > /dev/null
+
+          echo "[PASS] map.json valid"
 
       - name: Show Generated Files
         run: |
+          echo "[INFO] Generated Files"
+
           ls -R web/data
+
+      - name: Show Git Status
+        run: |
+          echo "[INFO] Git Status"
+
+          git status
+
+          echo ""
+          echo "[INFO] Git Diff"
+
+          git diff --stat
 
       - name: Commit Updated Data
         run: |
@@ -74,10 +149,25 @@ jobs:
 
           git add web/data
 
-          git diff --cached --quiet && echo "No changes to commit." && exit 0
+          if git diff --cached --quiet; then
+            echo "[INFO] No changes to commit"
+            exit 0
+          fi
 
-          git commit -m "Automatically updated via GitHub Action $(date -u +'%Y-%m-%d')"
+          echo "[INFO] Creating commit"
+
+          git commit -m \
+            "Automatically updated via GitHub Action $(date -u +'%Y-%m-%d')"
+
+          echo ""
+          echo "[INFO] Pulling latest changes"
 
           git pull --rebase origin main
 
+          echo ""
+          echo "[INFO] Pushing changes"
+
           git push
+
+          echo ""
+          echo "[DONE] Workflow completed successfully"
