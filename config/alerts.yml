@@ -1,0 +1,8 @@
+alerts:
+  - name: Critical Event
+    min_severity: 20
+
+  - name: Nigeria Spike
+    country: Nigeria
+    threshold: 3
+    hours: 24

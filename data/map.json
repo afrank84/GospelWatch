@@ -1,0 +1,44 @@
+[
+  {
+    "country": "Nigeria",
+    "incident_count": 2,
+    "total_severity": 10,
+    "max_severity": 10,
+    "risk_level": "medium",
+    "tags": {
+      "killing": 1
+    }
+  },
+  {
+    "country": "Kenya",
+    "incident_count": 3,
+    "total_severity": 0,
+    "max_severity": 0,
+    "risk_level": "none",
+    "tags": {}
+  },
+  {
+    "country": "China",
+    "incident_count": 1,
+    "total_severity": 0,
+    "max_severity": 0,
+    "risk_level": "none",
+    "tags": {}
+  },
+  {
+    "country": "India",
+    "incident_count": 2,
+    "total_severity": 0,
+    "max_severity": 0,
+    "risk_level": "none",
+    "tags": {}
+  },
+  {
+    "country": "Unknown",
+    "incident_count": 2,
+    "total_severity": 0,
+    "max_severity": 0,
+    "risk_level": "none",
+    "tags": {}
+  }
+]

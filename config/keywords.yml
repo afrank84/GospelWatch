@@ -1,0 +1,41 @@
+rules:
+  - tag: killing
+    severity: 10
+    keywords:
+      - killed
+      - murder
+      - murdered
+      - death
+      - deadly
+      - massacre
+      - executed
+      - execution
+      - beheaded
+      - slain
+
+  - tag: church_attack
+    severity: 5
+    keywords:
+      - church attacked
+      - church burned
+      - church destroyed
+      - cathedral vandalized
+      - attack on church
+      - church bombing
+
+  - tag: extremism
+    severity: 6
+    keywords:
+      - extremists
+      - militants
+      - jihadists
+      - islamist
+      - terrorists
+
+  - tag: arrest
+    severity: 4
+    keywords:
+      - arrested
+      - detained
+      - imprisoned
+      - jailed

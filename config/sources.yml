@@ -1,0 +1,12 @@
+sources:
+  - name: ICC
+    type: rss
+    url: https://persecution.org/feed/
+    enabled: true
+    region: global
+
+  - name: OpenDoors
+    type: rss
+    url: https://www.opendoors.org/en-US/rss/
+    enabled: true
+    region: global

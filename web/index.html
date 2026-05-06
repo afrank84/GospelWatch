@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>GospelWatch</title>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+	<style>
+		:root {
+			--bg: #0b1020;
+			--panel: #121a2b;
+			--panel-light: #182235;
+
+			--border: #25324a;
+
+			--text: #f5f7fb;
+			--muted: #94a3b8;
+
+			--green: #22c55e;
+			--yellow: #f59e0b;
+			--orange: #f97316;
+			--red: #ef4444;
+
+			--shadow:
+				0 10px 25px rgba(0, 0, 0, 0.35);
+
+			--radius: 16px;
+		}
+
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			font-family: "Inter", sans-serif;
+			background:
+				radial-gradient(circle at top left,
+					rgba(239, 68, 68, 0.08),
+					transparent 25%),
+				radial-gradient(circle at top right,
+					rgba(34, 197, 94, 0.05),
+					transparent 20%),
+				var(--bg);
+
+			color: var(--text);
+			min-height: 100vh;
+		}
+
+		.container {
+			width: 100%;
+			max-width: 1500px;
+			margin: 0 auto;
+			padding: 32px;
+		}
+
+		/* =========================
+		   HEADER
+		========================= */
+
+		.header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 20px;
+
+			padding: 28px;
+			margin-bottom: 28px;
+
+			background: rgba(18, 26, 43, 0.92);
+
+			border: 1px solid var(--border);
+			border-radius: var(--radius);
+
+			backdrop-filter: blur(12px);
+
+			box-shadow: var(--shadow);
+		}
+
+		.branding {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
+
+		.logo-row {
+			display: flex;
+			align-items: center;
+			gap: 14px;
+		}
+
+		.logo {
+			width: 18px;
+			height: 18px;
+
+			border-radius: 999px;
+
+			background: var(--red);
+
+			box-shadow:
+				0 0 18px rgba(239, 68, 68, 0.8);
+		}
+
+		.title {
+			font-size: 2.4rem;
+			font-weight: 800;
+			letter-spacing: -1px;
+		}
+
+		.subtitle {
+			color: var(--muted);
+			font-size: 0.95rem;
+			line-height: 1.6;
+		}
+
+		.header-right {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+
+		.status-pill {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+
+			padding: 10px 16px;
+
+			background: rgba(34, 197, 94, 0.08);
+
+			border: 1px solid rgba(34, 197, 94, 0.2);
+
+			border-radius: 999px;
+
+			color: var(--green);
+
+			font-size: 0.9rem;
+			font-weight: 600;
+		}
+
+		.status-dot {
+			width: 10px;
+			height: 10px;
+
+			border-radius: 999px;
+
+			background: var(--green);
+
+			box-shadow:
+				0 0 12px rgba(34, 197, 94, 0.8);
+		}
+
+		/* =========================
+		   DASHBOARD STATS
+		========================= */
+
+		.stats-grid {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 20px;
+
+			margin-bottom: 28px;
+		}
+
+		.stat-card {
+			background: var(--panel);
+
+			border: 1px solid var(--border);
+
+			border-radius: var(--radius);
+
+			padding: 24px;
+
+			box-shadow: var(--shadow);
+		}
+
+		.stat-label {
+			color: var(--muted);
+			font-size: 0.9rem;
+			margin-bottom: 12px;
+		}
+
+		.stat-value {
+			font-size: 2rem;
+			font-weight: 800;
+			letter-spacing: -1px;
+		}
+
+		/* =========================
+		   TOOLBAR
+		========================= */
+
+		.toolbar {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 16px;
+
+			margin-bottom: 28px;
+		}
+
+		.search-box {
+			flex: 1;
+			min-width: 280px;
+		}
+
+		.search-input,
+		.filter-select {
+			width: 100%;
+
+			background: var(--panel);
+
+			color: var(--text);
+
+			border: 1px solid var(--border);
+
+			border-radius: 12px;
+
+			padding: 14px 16px;
+
+			font-size: 0.95rem;
+
+			outline: none;
+
+			transition:
+				border-color 0.2s ease,
+				transform 0.15s ease;
+		}
+
+		.search-input:focus,
+		.filter-select:focus {
+			border-color: var(--red);
+			transform: translateY(-1px);
+		}
+
+		.filter-group {
+			display: flex;
+			gap: 12px;
+		}
+
+		/* =========================
+		   INCIDENT GRID
+		========================= */
+
+		.incidents-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+			gap: 22px;
+		}
+
+		.incident-card {
+			background: linear-gradient(to bottom,
+					var(--panel-light),
+					var(--panel));
+
+			border: 1px solid var(--border);
+
+			border-radius: var(--radius);
+
+			padding: 22px;
+
+			box-shadow: var(--shadow);
+
+			transition:
+				transform 0.18s ease,
+				border-color 0.18s ease;
+		}
+
+		.incident-card:hover {
+			transform: translateY(-4px);
+
+			border-color: rgba(239, 68, 68, 0.35);
+		}
+
+		.incident-top {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			gap: 16px;
+
+			margin-bottom: 18px;
+		}
+
+		.incident-title {
+			font-size: 1.15rem;
+			font-weight: 700;
+			line-height: 1.5;
+		}
+
+		.severity-badge {
+			padding: 8px 12px;
+
+			border-radius: 999px;
+
+			font-size: 0.8rem;
+			font-weight: 700;
+
+			white-space: nowrap;
+		}
+
+		.severity-low {
+			background: rgba(34, 197, 94, 0.15);
+			color: var(--green);
+		}
+
+		.severity-medium {
+			background: rgba(245, 158, 11, 0.15);
+			color: var(--yellow);
+		}
+
+		.severity-high {
+			background: rgba(249, 115, 22, 0.15);
+			color: var(--orange);
+		}
+
+		.severity-critical {
+			background: rgba(239, 68, 68, 0.15);
+			color: var(--red);
+		}
+
+		.incident-meta {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 14px;
+
+			margin-bottom: 18px;
+		}
+
+		.meta-item {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+		}
+
+		.meta-label {
+			color: var(--muted);
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+		}
+
+		.meta-value {
+			font-size: 0.95rem;
+			font-weight: 600;
+		}
+
+		.tags {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+
+			margin-bottom: 18px;
+		}
+
+		.tag {
+			padding: 8px 10px;
+
+			background: rgba(255, 255, 255, 0.05);
+
+			border: 1px solid rgba(255, 255, 255, 0.08);
+
+			border-radius: 10px;
+
+			font-size: 0.78rem;
+
+			color: var(--muted);
+		}
+
+		.read-link {
+			display: inline-flex;
+			align-items: center;
+
+			margin-top: 8px;
+
+			color: var(--text);
+
+			text-decoration: none;
+
+			font-size: 0.92rem;
+			font-weight: 700;
+
+			transition: opacity 0.2s ease;
+		}
+
+		.read-link:hover {
+			opacity: 0.75;
+		}
+
+		/* =========================
+		   EMPTY STATE
+		========================= */
+
+		.empty-state {
+			background: var(--panel);
+
+			border: 1px solid var(--border);
+
+			border-radius: var(--radius);
+
+			padding: 48px;
+
+			text-align: center;
+
+			color: var(--muted);
+		}
+
+		/* =========================
+		   LOADING
+		========================= */
+
+		.loading {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			padding: 60px;
+
+			color: var(--muted);
+		}
+
+		/* =========================
+		   MOBILE
+		========================= */
+
+		@media (max-width: 1100px) {
+			.stats-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+		}
+
+		@media (max-width: 768px) {
+			.container {
+				padding: 18px;
+			}
+
+			.header {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+
+			.stats-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.incidents-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.incident-meta {
+				grid-template-columns: 1fr;
+			}
+
+			.filter-group {
+				width: 100%;
+				flex-direction: column;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="container">
+
+		<header class="header">
+
+			<div class="branding">
+
+				<div class="logo-row">
+					<div class="logo"></div>
+
+					<h1 class="title">
+						GospelWatch
+					</h1>
+				</div>
+
+				<p class="subtitle">
+					Global monitoring dashboard for persecution incidents,
+					religious hostility, church attacks, arrests,
+					and anti-Christian violence.
+				</p>
+
+			</div>
+
+			<div class="header-right">
+
+				<div class="status-pill">
+					<div class="status-dot"></div>
+
+					<span>
+						Live Feed Active
+					</span>
+				</div>
+
+			</div>
+
+		</header>
+
+		<section class="stats-grid">
+
+			<div class="stat-card">
+				<div class="stat-label">
+					Total Incidents
+				</div>
+
+				<div class="stat-value" id="total-incidents">
+					0
+				</div>
+			</div>
+
+			<div class="stat-card">
+				<div class="stat-label">
+					Countries Impacted
+				</div>
+
+				<div class="stat-value" id="total-countries">
+					0
+				</div>
+			</div>
+
+			<div class="stat-card">
+				<div class="stat-label">
+					Critical Events
+				</div>
+
+				<div class="stat-value" id="critical-events">
+					0
+				</div>
+			</div>
+
+			<div class="stat-card">
+				<div class="stat-label">
+					Last Updated
+				</div>
+
+				<div class="stat-value" id="last-updated">
+					--
+				</div>
+			</div>
+
+		</section>
+
+		<section class="toolbar">
+
+			<div class="search-box">
+				<input type="text" id="search-input" class="search-input"
+					placeholder="Search incidents, countries, tags, or sources...">
+			</div>
+
+			<div class="filter-group">
+
+				<select id="severity-filter" class="filter-select">
+					<option value="all">All Severity Levels</option>
+					<option value="critical">Critical</option>
+					<option value="high">High</option>
+					<option value="medium">Medium</option>
+					<option value="low">Low</option>
+				</select>
+
+				<select id="country-filter" class="filter-select">
+					<option value="all">All Countries</option>
+				</select>
+
+			</div>
+
+		</section>
+
+		<section id="loading" class="loading">
+			Loading incidents...
+		</section>
+
+		<section id="incidents" class="incidents-grid" style="display: none;">
+		</section>
+
+		<section id="empty-state" class="empty-state" style="display: none;">
+
+			<h2>No incidents found</h2>
+
+			<p style="margin-top: 12px;">
+				The current filters returned no matching results.
+			</p>
+
+		</section>
+
+	</div>
+
+	<script src="app.js"></script>
+
+</body>
+
+</html>
