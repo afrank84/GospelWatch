@@ -1,4 +1,4 @@
-const INCIDENTS_URL = "../data/incidents.json";
+const INCIDENTS_URL = "./data/incidents.json";
 
 let allIncidents = [];
 

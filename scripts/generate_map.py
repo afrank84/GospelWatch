@@ -13,10 +13,10 @@ INCIDENTS_FILE: str = os.path.join(
 
 MAP_FILE: str = os.path.join(
     BASE_DIR,
+    "web",
     "data",
     "map.json"
 )
-
 
 def load_incidents() -> list[dict[str, Any]]:
     if not os.path.exists(INCIDENTS_FILE):
