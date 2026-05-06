@@ -7,6 +7,11 @@ sources:
 
   - name: OpenDoors
     type: rss
-    url: https://www.opendoors.org/en-US/rss/
+    url: https://www.opendoorsus.org/en-US/stories/
     enabled: true
     region: global
+
+  - name: ChinaAid
+    type: html
+    url: https://chinaaid.org/latest-news/
+    enabled: true
