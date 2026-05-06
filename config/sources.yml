@@ -3,13 +3,11 @@ sources:
     type: rss
     url: https://persecution.org/feed/
     enabled: true
-    region: global
 
   - name: OpenDoors
-    type: rss
-    url: https://www.opendoorsus.org/en-US/stories/
+    type: html
+    url: https://www.opendoorsus.org/news/latest-stories/
     enabled: true
-    region: global
 
   - name: ChinaAid
     type: html

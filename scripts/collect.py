@@ -5,6 +5,9 @@ from typing import Any
 
 import feedparser
 import yaml
+import requests
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin
 
 from parse import parse_article
 
@@ -158,6 +161,102 @@ def sort_incidents(
 		reverse=True
 	)
 
+def process_html_source(
+	source: dict[str, Any],
+	incidents: list[dict[str, Any]]
+) -> None:
+	source_name: str = str(source.get("name", "Unknown"))
+	source_url: str = str(source.get("url", ""))
+	enabled: bool = bool(source.get("enabled", True))
+
+	if not enabled:
+		print(f"[SKIP] {source_name} disabled")
+		return
+
+	print(f"[FETCH HTML] {source_name}")
+	print(f"[URL] {source_url}")
+
+	try:
+		response = requests.get(
+			source_url,
+			timeout=20,
+			headers={
+				"User-Agent": (
+					"Mozilla/5.0 GospelWatch"
+				)
+			}
+		)
+
+		response.raise_for_status()
+
+	except requests.RequestException as error:
+		print(f"[ERROR] HTML request failed: {error}")
+		return
+
+	soup = BeautifulSoup(
+		response.text,
+		"html.parser"
+	)
+
+	links = soup.find_all("a")
+
+	added_count: int = 0
+
+	for link in links:
+		href: str | None = link.get("href")
+
+		if href is None:
+			continue
+
+		title: str = link.get_text(strip=True)
+
+		if len(title) < 20:
+			continue
+
+		full_url: str = urljoin(
+			source_url,
+			href
+		)
+
+		if incident_exists(
+			incidents,
+			full_url
+		):
+			continue
+
+		combined_text: str = title
+
+		parsed_data: dict[str, Any] = parse_article(
+			combined_text
+		)
+
+		incident: dict[str, Any] = {
+			"title": title,
+			"summary": "",
+			"source": source_name,
+			"url": full_url,
+			"published": "",
+			"country": parsed_data["country"],
+			"severity": parsed_data["severity"],
+			"tags": parsed_data["tags"],
+			"matched_keywords": (
+				parsed_data["matched_keywords"]
+			),
+			"collected_at": datetime.now(
+				timezone.utc
+			).isoformat()
+		}
+
+		incidents.append(incident)
+
+		added_count += 1
+
+		print(f"[ADD HTML] {title}")
+
+	print(
+		f"[DONE HTML] {source_name}: "
+		f"{added_count} incidents"
+	)
 
 def main() -> None:
 	os.makedirs(HISTORY_DIR, exist_ok=True)
@@ -179,7 +278,27 @@ def main() -> None:
 	print(f"[INFO] Existing incidents: {len(incidents)}")
 
 	for source in sources:
-		process_feed(source, incidents)
+		source_type: str = str(
+			source.get("type", "rss")
+		).lower()
+
+		if source_type == "rss":
+			process_feed(
+				source,
+				incidents
+			)
+
+		elif source_type == "html":
+			process_html_source(
+				source,
+				incidents
+			)
+
+		else:
+			print(
+				f"[SKIP] Unknown source type: "
+				f"{source_type}"
+			)
 
 	incidents = sort_incidents(incidents)
 
@@ -188,7 +307,3 @@ def main() -> None:
 	save_history_snapshot(incidents)
 
 	print(f"[DONE] Total incidents: {len(incidents)}")
-
-
-if __name__ == "__main__":
-	main()
