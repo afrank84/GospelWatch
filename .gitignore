@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# VSCode
+.vscode/
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Python cache folders inside scripts
+scripts/__pycache__/
+scripts/sources/__pycache__/
+
+# Local testing cache
+.pytest_cache/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Environment variables / secrets
+.env
+.env.*
+
+# Optional local SQLite database
+*.sqlite
+*.db
+
+# Optional local-only generated history snapshots
+# Uncomment if you do NOT want history committed
+# web/data/history/
+
+# Optional local-only generated live data
+# Uncomment if you do NOT want generated JSON committed
+# web/data/incidents.json
+# web/data/map.json
