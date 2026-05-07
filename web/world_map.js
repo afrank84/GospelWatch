@@ -19,12 +19,18 @@ function buildCountryStats(incidents) {
 
 		stats[country].count += 1;
 
-		const severity = (
-			incident.severity || ""
-		).toLowerCase();
+		const severityLevel =
+			getSeverityLevel(
+				Number(
+					incident.severity || 0
+				)
+			);
 
-		if (stats[country][severity] !== undefined) {
-			stats[country][severity] += 1;
+		if (
+			stats[country][severityLevel]
+			!== undefined
+		) {
+			stats[country][severityLevel] += 1;
 		}
 	}
 
