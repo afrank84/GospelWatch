@@ -2,14 +2,15 @@ import json
 import os
 from datetime import datetime, timezone
 from typing import Any
-
-import feedparser
-import yaml
-import requests
-from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
+import feedparser
+import requests
+import yaml
+from bs4 import BeautifulSoup
+
 from parse import parse_article
+from sources.china_aid import collect_china_aid
 
 
 BASE_DIR: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -217,17 +218,40 @@ def process_html_source(
 		"html.parser"
 	)
 
-	links = soup.find_all("a")
+	article_links: list[Any] = []
+
+	for selector in [
+		"article a",
+		"h1 a",
+		"h2 a",
+		"h3 a",
+		".post a",
+		".entry-title a",
+		".elementor-post__title a"
+	]:
+		found_links: list[Any] = soup.select(selector)
+
+		if len(found_links) > 0:
+			article_links.extend(found_links)
+
+	if len(article_links) == 0:
+		print(
+			f"[WARN] No article links found for "
+			f"{source_name}"
+		)
+		return
 
 	added_count: int = 0
 
-	for link in links:
+	for link in article_links:
 		href: str | None = link.get("href")
 
 		if href is None:
 			continue
 
-		title: str = link.get_text(strip=True)
+		title: str = link.get_text(
+			strip=True
+		)
 
 		if len(title) < 20:
 			continue
@@ -240,6 +264,13 @@ def process_html_source(
 		if incident_exists(
 			incidents,
 			full_url
+		):
+			continue
+
+		if (
+			"/tag/" in full_url
+			or "/category/" in full_url
+			or "#" in full_url
 		):
 			continue
 
@@ -285,18 +316,31 @@ def main() -> None:
 		exist_ok=True
 	)
 
-	sources_config: dict[str, Any] = load_yaml(SOURCES_FILE)
-
-	sources: list[dict[str, Any]] = sources_config.get(
-		"sources",
-		[]
+	sources_config: dict[str, Any] = load_yaml(
+		SOURCES_FILE
 	)
 
-	incidents: list[dict[str, Any]] = load_existing_incidents()
+	sources: list[dict[str, Any]] = (
+		sources_config.get(
+			"sources",
+			[]
+		)
+	)
 
-	print(f"[INFO] Existing incidents: {len(incidents)}")
+	incidents: list[dict[str, Any]] = (
+		load_existing_incidents()
+	)
+
+	print(
+		f"[INFO] Existing incidents: "
+		f"{len(incidents)}"
+	)
 
 	for source in sources:
+		source_name: str = str(
+			source.get("name", "")
+		).lower()
+
 		source_type: str = str(
 			source.get("type", "rss")
 		).lower()
@@ -307,22 +351,50 @@ def main() -> None:
 				incidents
 			)
 
-		elif source_type == "html":
+			continue
+
+		if source_name == "chinaaid":
+			new_incidents: list[
+				dict[str, Any]
+			] = collect_china_aid()
+
+			for incident in new_incidents:
+				if not incident_exists(
+					incidents,
+					incident["url"]
+				):
+					incidents.append(
+						incident
+					)
+
+			continue
+
+		if source_type == "html":
 			process_html_source(
 				source,
 				incidents
 			)
 
-		else:
-			print(
-				f"[SKIP] Unknown source type: "
-				f"{source_type}"
-			)
+			continue
 
-	incidents = sort_incidents(incidents)
+		print(
+			f"[SKIP] Unknown source type: "
+			f"{source_type}"
+		)
 
-	save_incidents(incidents)
+	incidents = sort_incidents(
+		incidents
+	)
 
-	save_history_snapshot(incidents)
+	save_incidents(
+		incidents
+	)
 
-	print(f"[DONE] Total incidents: {len(incidents)}")
+	save_history_snapshot(
+		incidents
+	)
+
+	print(
+		f"[DONE] Total incidents: "
+		f"{len(incidents)}"
+	)
