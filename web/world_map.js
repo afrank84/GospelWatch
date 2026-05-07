@@ -153,6 +153,7 @@ function renderWorldMap(incidents) {
 		]
 	};
 
+	worldMap.setOption(option);
 	worldMap.off("click");
 
 	worldMap.on(
