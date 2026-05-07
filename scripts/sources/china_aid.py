@@ -110,7 +110,7 @@ def collect_china_aid() -> list[dict[str, Any]]:
 			"source": "ChinaAid",
 			"url": full_url,
 			"published": "",
-			"country": parsed_data["country"],
+			"country": "China",
 			"severity": parsed_data["severity"],
 			"tags": parsed_data["tags"],
 			"matched_keywords": (
