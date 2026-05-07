@@ -153,7 +153,31 @@ function renderWorldMap(incidents) {
 		]
 	};
 
-	worldMap.setOption(option);
+	worldMap.off("click");
+
+	worldMap.on(
+		"click",
+		function (params) {
+
+			if (!params.name) {
+				return;
+			}
+
+			const countryFilter =
+				document.getElementById(
+					"country-filter"
+				);
+
+			if (!countryFilter) {
+				return;
+			}
+
+			countryFilter.value =
+				params.name;
+
+			applyFilters();
+		}
+	);
 
 	window.addEventListener(
 		"resize",
