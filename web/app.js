@@ -28,6 +28,8 @@ async function initializeDashboard() {
 
 		updateStats(allIncidents);
 
+		renderWorldMap(allIncidents);
+
 		renderIncidents(filteredIncidents);
 
 		setupEventListeners();
@@ -160,6 +162,7 @@ function applyFilters() {
 			);
 		});
 
+	renderWorldMap(filteredIncidents);
 	renderIncidents(filteredIncidents);
 }
 
