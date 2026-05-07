@@ -98,10 +98,65 @@ def collect_china_aid() -> list[dict[str, Any]]:
 		):
 			continue
 
-		combined_text: str = title
+		article_text: str = ""
 
-		parsed_data: dict[str, Any] = parse_article(
-			combined_text
+		print(f"[FETCH ARTICLE] {full_url}")
+
+		try:
+			article_response = requests.get(
+				full_url,
+				timeout=20,
+				headers={
+					"User-Agent": (
+						"Mozilla/5.0 GospelWatch"
+					)
+				}
+			)
+
+			article_response.raise_for_status()
+
+			article_soup = BeautifulSoup(
+				article_response.text,
+				"html.parser"
+			)
+
+			paragraphs: list[Any] = (
+				article_soup.select(
+					"article p"
+				)
+			)
+
+			if len(paragraphs) == 0:
+				paragraphs = article_soup.select(
+					"p"
+				)
+
+			article_text = " ".join(
+				p.get_text(
+					strip=True
+				)
+				for p in paragraphs
+			)
+
+			print(
+				f"[INFO] Article text length: "
+				f"{len(article_text)}"
+			)
+
+		except requests.RequestException as error:
+			print(
+				f"[ERROR] Article request failed: "
+				f"{error}"
+			)
+
+		combined_text: str = (
+			title + "\n" + article_text
+		)
+
+		parsed_data: dict[str, Any] = (
+			parse_article(
+				combined_text
+			)
 		)
 
 		incident: dict[str, Any] = {
