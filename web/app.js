@@ -37,10 +37,13 @@ async function initializeDashboard() {
 		showLoading(false);
 
 	} catch (error) {
-		console.error(error);
+		console.error(
+			"[DASHBOARD ERROR]",
+			error
+		);
 
 		showErrorState(
-			"Failed to load incident data."
+			error.message
 		);
 	}
 }
