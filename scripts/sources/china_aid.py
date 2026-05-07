@@ -71,6 +71,16 @@ def collect_china_aid() -> list[dict[str, Any]]:
 		if len(title) < 20:
 			continue
 
+		lower_title: str = title.lower()
+
+		if (
+			"share on facebook" in lower_title
+			or "share on x" in lower_title
+			or "back to uncensored news" in lower_title
+			or "opens in new window" in lower_title
+		):
+			continue
+
 		full_url: str = urljoin(
 			BASE_URL,
 			href

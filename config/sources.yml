@@ -6,7 +6,7 @@ sources:
 
   - name: OpenDoors
     type: html
-    url: https://www.opendoorsus.org/news/latest-stories/
+    url: https://www.opendoorsus.org/en-US/stories/
     enabled: true
 
   - name: ChinaAid

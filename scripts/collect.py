@@ -398,3 +398,6 @@ def main() -> None:
 		f"[DONE] Total incidents: "
 		f"{len(incidents)}"
 	)
+
+if __name__ == "__main__":
+	main()
