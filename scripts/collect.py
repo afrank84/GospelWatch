@@ -165,11 +165,25 @@ def process_feed(
 			entry
 		)
 
+		if (
+			int(incident["severity"]) <= 0
+			and len(incident["tags"]) == 0
+		):
+			print("[SKIP RSS] Non-incident article")
+			continue
+
+		if (
+			int(incident["severity"]) <= 0
+			and len(incident["tags"]) == 0
+		):
+			print("[SKIP HTML] Non-incident article")
+			continue
+
 		incidents.append(incident)
 
 		added_count += 1
 
-		print(f"[ADD RSS] {incident['title']}")
+		print(f"[ADD HTML] {title}")
 
 	print(
 		f"[DONE RSS] {source_name}: "
