@@ -95,13 +95,18 @@ def normalize_entry(
 
 	parsed_data: dict[str, Any] = parse_article(combined_text)
 
+	country: str = str(parsed_data["country"])
+
+	if source_name == "ChinaAid":
+		country = "China"
+
 	incident: dict[str, Any] = {
 		"title": title,
 		"summary": summary,
 		"source": source_name,
 		"url": link,
 		"published": published,
-		"country": parsed_data["country"],
+		"country": country,
 		"severity": parsed_data["severity"],
 		"tags": parsed_data["tags"],
 		"matched_keywords": parsed_data["matched_keywords"],
