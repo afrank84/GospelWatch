@@ -341,6 +341,14 @@ def main() -> None:
 		f"{len(incidents)}"
 	)
 
+	for incident in incidents:
+		source_name: str = str(
+			incident.get("source", "")
+		)
+
+		if source_name == "ChinaAid":
+			incident["country"] = "China"
+
 	for source in sources:
 		source_name: str = str(
 			source.get("name", "")
@@ -364,6 +372,8 @@ def main() -> None:
 			] = collect_china_aid()
 
 			for incident in new_incidents:
+				incident["country"] = "China"
+
 				if not incident_exists(
 					incidents,
 					incident["url"]
