@@ -1080,6 +1080,23 @@
     "collected_at": "2026-07-28T02:41:48.004615+00:00"
   },
   {
+    "title": "After church demolition, more than 20 Chinese Christians remain jailed in Zhejiang crackdown",
+    "summary": "",
+    "source": "ChinaAid",
+    "url": "https://chinaaid.org/news/stories-by-issue/rule-of-law/after-church-demolition-more-than-20-chinese-christians-remain-jailed-in-zhejiang-crackdown/",
+    "published": "",
+    "country": "China",
+    "severity": 8,
+    "tags": [
+      "arrest"
+    ],
+    "matched_keywords": [
+      "detained",
+      "jailed"
+    ],
+    "collected_at": "2026-07-29T19:19:36.543799+00:00"
+  },
+  {
     "title": "Islamic Extremists Disrupt Church Services in Indonesia",
     "summary": "<p>A worship service at the Misi Sejahtera Church (GMS) in the Glugo area of ​​Panggungharjo Village in Yogyakarta, Indonesia, was interrupted by Islamic extremists on Sunday morning, May 24. About 15 members of the Islamic Jihad Front FJI (Laskar), led by Abdurahman Abu Zaki, also known as Darohman, arrived at the church at 7:59 a.m.&#8230;</p>\n<p>The post <a href=\"https://persecution.org/2026/06/02/islamic-extremists-disrupt-church-services-in-indonesia/\">Islamic Extremists Disrupt Church Services in Indonesia</a> first appeared on <a href=\"https://persecution.org\">International Christian Concern</a>.</p>",
     "source": "ICC",
@@ -2170,5 +2187,17 @@
     "tags": [],
     "matched_keywords": [],
     "collected_at": "2026-07-28T19:27:17.307127+00:00"
+  },
+  {
+    "title": "Persecution by Province",
+    "summary": "",
+    "source": "ChinaAid",
+    "url": "https://chinaaid.org/persecution-by-province/",
+    "published": "",
+    "country": "China",
+    "severity": 0,
+    "tags": [],
+    "matched_keywords": [],
+    "collected_at": "2026-07-29T19:19:36.428265+00:00"
   }
 ]
