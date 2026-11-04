@@ -1,5 +1,27 @@
 [
   {
+    "title": "China Wants You to Forget Her. Here’s Why Lin Zhao Matters Today.",
+    "summary": "",
+    "source": "ChinaAid",
+    "url": "https://chinaaid.org/news/china-wants-you-to-forget-her-heres-why-lin-zhao-matters-today/",
+    "published": "",
+    "country": "China",
+    "severity": 42,
+    "tags": [
+      "killing",
+      "arrest"
+    ],
+    "matched_keywords": [
+      "death",
+      "executed",
+      "execution",
+      "detained",
+      "imprisoned",
+      "jailed"
+    ],
+    "collected_at": "2026-11-04T23:21:15.846552+00:00"
+  },
+  {
     "title": "ChinaAid opens nominations for 2026 Lin Zhao Freedom Award",
     "summary": "",
     "source": "ChinaAid",
@@ -2142,6 +2164,23 @@
       "detained"
     ],
     "collected_at": "2026-10-28T04:39:57.813593+00:00"
+  },
+  {
+    "title": "Family challenges prison restrictions on Chinese human rights lawyer Ding Jiaxi",
+    "summary": "",
+    "source": "ChinaAid",
+    "url": "https://chinaaid.org/news/family-challenges-prison-restrictions-on-chinese-human-rights-lawyer-ding-jiaxi/",
+    "published": "",
+    "country": "China",
+    "severity": 8,
+    "tags": [
+      "arrest"
+    ],
+    "matched_keywords": [
+      "detained",
+      "imprisoned"
+    ],
+    "collected_at": "2026-11-04T23:21:15.731203+00:00"
   },
   {
     "title": "Islamic Extremists Disrupt Church Services in Indonesia",
